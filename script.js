@@ -1,73 +1,69 @@
-const API_BASE = "https://api.frankfurter.dev/v1";
+"use strict";
 
-const $ = id => document.getElementById(id);
+// EXVORA — Global Currency Tools
+// Uses Frankfurter API v2
+const API_BASE = "https://api.frankfurter.dev/v2";
+
+const $ = (id) => document.getElementById(id);
 
 let currencies = [];
 let ratesToINR = { INR: 1 };
 let lastRateDate = null;
 
-const currencyMeta = {
-  USD: { flag: "🇺🇸", symbol: "$" },
-  INR: { flag: "🇮🇳", symbol: "₹" },
-  EUR: { flag: "🇪🇺", symbol: "€" },
-  GBP: { flag: "🇬🇧", symbol: "£" },
-  AED: { flag: "🇦🇪", symbol: "د.إ" },
-  CAD: { flag: "🇨🇦", symbol: "C$" },
-  AUD: { flag: "🇦🇺", symbol: "A$" },
-  SGD: { flag: "🇸🇬", symbol: "S$" },
-  JPY: { flag: "🇯🇵", symbol: "¥" },
-  CHF: { flag: "🇨🇭", symbol: "CHF" },
-  CNY: { flag: "🇨🇳", symbol: "¥" },
-  NZD: { flag: "🇳🇿", symbol: "NZ$" },
-  HKD: { flag: "🇭🇰", symbol: "HK$" },
-  SAR: { flag: "🇸🇦", symbol: "﷼" },
-  QAR: { flag: "🇶🇦", symbol: "ر.ق" },
-  KWD: { flag: "🇰🇼", symbol: "د.ك" },
-  BHD: { flag: "🇧🇭", symbol: ".د.ب" },
-  OMR: { flag: "🇴🇲", symbol: "ر.ع." },
-  PKR: { flag: "🇵🇰", symbol: "₨" },
-  BDT: { flag: "🇧🇩", symbol: "৳" },
-  LKR: { flag: "🇱🇰", symbol: "Rs" },
-  NPR: { flag: "🇳🇵", symbol: "रु" },
-  THB: { flag: "🇹🇭", symbol: "฿" },
-  MYR: { flag: "🇲🇾", symbol: "RM" },
-  IDR: { flag: "🇮🇩", symbol: "Rp" },
-  PHP: { flag: "🇵🇭", symbol: "₱" },
-  KRW: { flag: "🇰🇷", symbol: "₩" },
-  ZAR: { flag: "🇿🇦", symbol: "R" },
-  BRL: { flag: "🇧🇷", symbol: "R$" },
-  MXN: { flag: "🇲🇽", symbol: "$" },
-  TRY: { flag: "🇹🇷", symbol: "₺" },
-  RUB: { flag: "🇷🇺", symbol: "₽" },
-  PLN: { flag: "🇵🇱", symbol: "zł" },
-  SEK: { flag: "🇸🇪", symbol: "kr" },
-  NOK: { flag: "🇳🇴", symbol: "kr" },
-  DKK: { flag: "🇩🇰", symbol: "kr" },
-  ISK: { flag: "🇮🇸", symbol: "kr" },
-  CZK: { flag: "🇨🇿", symbol: "Kč" },
-  HUF: { flag: "🇭🇺", symbol: "Ft" },
-  RON: { flag: "🇷🇴", symbol: "lei" },
-  BGN: { flag: "🇧🇬", symbol: "лв" },
-  UAH: { flag: "🇺🇦", symbol: "₴" },
-  ILS: { flag: "🇮🇱", symbol: "₪" },
-  EGP: { flag: "🇪🇬", symbol: "£" },
-  NGN: { flag: "🇳🇬", symbol: "₦" },
-  KES: { flag: "🇰🇪", symbol: "KSh" },
-  GHS: { flag: "🇬🇭", symbol: "₵" },
-  MAD: { flag: "🇲🇦", symbol: "د.م." },
-  TND: { flag: "🇹🇳", symbol: "د.ت" },
-  ARS: { flag: "🇦🇷", symbol: "$" },
-  CLP: { flag: "🇨🇱", symbol: "$" },
-  COP: { flag: "🇨🇴", symbol: "$" },
-  PEN: { flag: "🇵🇪", symbol: "S/" },
-  VND: { flag: "🇻🇳", symbol: "₫" },
-  KHR: { flag: "🇰🇭", symbol: "៛" },
-  MMK: { flag: "🇲🇲", symbol: "K" }
+// Currency code to flag
+const currencyFlags = {
+  AFN: "🇦🇫",
+  AED: "🇦🇪",
+  AUD: "🇦🇺",
+  BDT: "🇧🇩",
+  BHD: "🇧🇭",
+  BRL: "🇧🇷",
+  CAD: "🇨🇦",
+  CHF: "🇨🇭",
+  CNY: "🇨🇳",
+  DKK: "🇩🇰",
+  EGP: "🇪🇬",
+  EUR: "🇪🇺",
+  FJD: "🇫🇯",
+  GBP: "🇬🇧",
+  HKD: "🇭🇰",
+  IDR: "🇮🇩",
+  ILS: "🇮🇱",
+  INR: "🇮🇳",
+  IQD: "🇮🇶",
+  IRR: "🇮🇷",
+  JOD: "🇯🇴",
+  JPY: "🇯🇵",
+  KES: "🇰🇪",
+  KRW: "🇰🇷",
+  KWD: "🇰🇼",
+  LKR: "🇱🇰",
+  MAD: "🇲🇦",
+  MUR: "🇲🇺",
+  MXN: "🇲🇽",
+  MYR: "🇲🇾",
+  NGN: "🇳🇬",
+  NPR: "🇳🇵",
+  NZD: "🇳🇿",
+  OMR: "🇴🇲",
+  PHP: "🇵🇭",
+  PKR: "🇵🇰",
+  QAR: "🇶🇦",
+  RUB: "🇷🇺",
+  SAR: "🇸🇦",
+  SEK: "🇸🇪",
+  SGD: "🇸🇬",
+  THB: "🇹🇭",
+  TRY: "🇹🇷",
+  TWD: "🇹🇼",
+  USD: "🇺🇸",
+  VND: "🇻🇳",
+  ZAR: "🇿🇦"
 };
 
-function numberFormat(value, max = 2) {
+function numberFormat(value, maximumFractionDigits = 2) {
   return new Intl.NumberFormat("en-IN", {
-    maximumFractionDigits: max
+    maximumFractionDigits
   }).format(value);
 }
 
@@ -76,7 +72,9 @@ function moneyFormat(value, code) {
     return new Intl.NumberFormat("en-IN", {
       style: "currency",
       currency: code,
-      maximumFractionDigits: code === "JPY" ? 0 : 2
+      maximumFractionDigits: ["JPY", "KRW", "VND"].includes(code)
+        ? 0
+        : 2
     }).format(value);
   } catch {
     return `${numberFormat(value)} ${code}`;
@@ -84,239 +82,325 @@ function moneyFormat(value, code) {
 }
 
 async function fetchJSON(url) {
-  const response = await fetch(url);
+  const response = await fetch(url, {
+    cache: "no-store"
+  });
 
   if (!response.ok) {
-    throw new Error(`API error: ${response.status}`);
+    throw new Error(`API request failed: ${response.status}`);
   }
 
   return response.json();
 }
 
+// Load the currencies supported by the API.
 async function loadCurrencies() {
-  const from = $("fromCurrency");
-  const to = $("toCurrency");
-
-  from.innerHTML = "";
-  to.innerHTML = "";
-
   try {
     const data = await fetchJSON(`${API_BASE}/currencies`);
 
-    currencies = Object.entries(data)
-      .map(([code, name]) => ({
-        code,
-        name: String(name)
+    currencies = data
+      .filter(item => item.iso_code && item.name)
+      .map(item => ({
+        code: item.iso_code.toUpperCase(),
+        name: item.name,
+        symbol: item.symbol || item.iso_code
       }))
       .sort((a, b) => a.code.localeCompare(b.code));
 
-    currencies.forEach(currency => {
-      const meta = currencyMeta[currency.code] || {};
-      const flag = meta.flag || "🌐";
-      const label = `${flag} ${currency.code} — ${currency.name}`;
-
-      from.add(new Option(label, currency.code));
-      to.add(new Option(label, currency.code));
-    });
-
-    from.value = currencies.some(c => c.code === "USD")
-      ? "USD"
-      : currencies[0]?.code || "INR";
-
-    to.value = currencies.some(c => c.code === "INR")
-      ? "INR"
-      : currencies[1]?.code || from.value;
-
-  } catch (error) {
-    console.error("Could not load currency list:", error);
-
-    const fallback = [
-      { code: "USD", name: "US Dollar" },
-      { code: "INR", name: "Indian Rupee" },
-      { code: "EUR", name: "Euro" },
-      { code: "GBP", name: "British Pound" },
-      { code: "AED", name: "UAE Dirham" },
-      { code: "CAD", name: "Canadian Dollar" },
-      { code: "AUD", name: "Australian Dollar" },
-      { code: "JPY", name: "Japanese Yen" },
-      { code: "SGD", name: "Singapore Dollar" },
-      { code: "CHF", name: "Swiss Franc" }
-    ];
-
-    currencies = fallback;
-
-    for (const currency of fallback) {
-      const label = `${currencyMeta[currency.code]?.flag || "🌐"} ${currency.code} — ${currency.name}`;
-      from.add(new Option(label, currency.code));
-      to.add(new Option(label, currency.code));
+    if (!currencies.some(c => c.code === "INR")) {
+      currencies.push({
+        code: "INR",
+        name: "Indian Rupee",
+        symbol: "₹"
+      });
     }
 
-    from.value = "USD";
-    to.value = "INR";
+    fillCurrencySelects();
 
-    $("rateStatus").textContent =
-      "Using fallback currency list; API currency list unavailable.";
+    return true;
+  } catch (error) {
+    console.error("Currency list could not load:", error);
+
+    // Fallback list if the currency catalogue is temporarily unavailable.
+    currencies = [
+      { code: "INR", name: "Indian Rupee", symbol: "₹" },
+      { code: "USD", name: "US Dollar", symbol: "$" },
+      { code: "EUR", name: "Euro", symbol: "€" },
+      { code: "GBP", name: "British Pound", symbol: "£" },
+      { code: "AED", name: "UAE Dirham", symbol: "د.إ" },
+      { code: "SAR", name: "Saudi Riyal", symbol: "﷼" },
+      { code: "QAR", name: "Qatari Riyal", symbol: "ر.ق" },
+      { code: "AFN", name: "Afghan Afghani", symbol: "؋" },
+      { code: "FJD", name: "Fijian Dollar", symbol: "$" },
+      { code: "CAD", name: "Canadian Dollar", symbol: "$" },
+      { code: "AUD", name: "Australian Dollar", symbol: "$" },
+      { code: "JPY", name: "Japanese Yen", symbol: "¥" },
+      { code: "SGD", name: "Singapore Dollar", symbol: "$" },
+      { code: "PKR", name: "Pakistani Rupee", symbol: "₨" },
+      { code: "BDT", name: "Bangladeshi Taka", symbol: "৳" },
+      { code: "LKR", name: "Sri Lankan Rupee", symbol: "Rs" },
+      { code: "NPR", name: "Nepalese Rupee", symbol: "रू" }
+    ];
+
+    fillCurrencySelects();
+    return false;
   }
 }
 
+function fillCurrencySelects() {
+  const from = $("fromCurrency");
+  const to = $("toCurrency");
+
+  if (!from || !to) return;
+
+  from.replaceChildren();
+  to.replaceChildren();
+
+  for (const currency of currencies) {
+    const flag = currencyFlags[currency.code] || "🌐";
+    const label = `${flag} ${currency.code} — ${currency.name}`;
+
+    from.add(new Option(label, currency.code));
+    to.add(new Option(label, currency.code));
+  }
+
+  from.value = currencies.some(c => c.code === "USD")
+    ? "USD"
+    : "INR";
+
+  to.value = "INR";
+}
+
+// ratesToINR stores the INR value of one unit of each currency.
 function rateFor(from, to) {
   if (from === to) return 1;
 
   const fromRate = ratesToINR[from];
   const toRate = ratesToINR[to];
 
-  if (!(fromRate > 0) || !(toRate > 0)) return null;
+  if (
+    !Number.isFinite(fromRate) ||
+    !Number.isFinite(toRate) ||
+    fromRate <= 0 ||
+    toRate <= 0
+  ) {
+    return null;
+  }
 
   return fromRate / toRate;
 }
 
 function updateConverter() {
-  const amount = Number($("amount").value);
-  const from = $("fromCurrency").value;
-  const to = $("toCurrency").value;
+  const amountElement = $("amount");
+  const resultElement = $("result");
+  const noteElement = $("conversionNote");
+
+  if (!amountElement || !resultElement) return;
+
+  const amount = Number(amountElement.value);
+  const from = $("fromCurrency")?.value;
+  const to = $("toCurrency")?.value;
+
   const rate = rateFor(from, to);
 
-  if ($("amount").value.trim() === "" ||
-      !Number.isFinite(amount) ||
-      amount < 0 ||
-      rate === null) {
-    $("result").value = "Unavailable";
-    $("conversionNote").textContent =
-      "A valid amount and available exchange rate are required.";
+  if (!Number.isFinite(amount) || amount < 0) {
+    resultElement.value = "Enter a valid amount";
+    if (noteElement) {
+      noteElement.textContent = "Please enter zero or a positive amount.";
+    }
     return;
   }
 
-  $("result").value = numberFormat(amount * rate, 4);
+  if (rate === null) {
+    resultElement.value = "Rate unavailable";
 
-  $("conversionNote").textContent =
-    `1 ${from} ≈ ${numberFormat(rate, 5)} ${to} · Indicative estimate`;
+    if (noteElement) {
+      noteElement.textContent =
+        `The ${from} to ${to} exchange rate is not available.`;
+    }
+    return;
+  }
+
+  resultElement.value = numberFormat(amount * rate, 4);
+
+  if (noteElement) {
+    noteElement.textContent =
+      `1 ${from} ≈ ${numberFormat(rate, 6)} ${to} · Indicative reference rate`;
+  }
 }
 
 function setRateText(id, code) {
   const element = $(id);
   if (!element) return;
 
-  element.textContent = ratesToINR[code] > 0
-    ? moneyFormat(ratesToINR[code], "INR")
+  const value = ratesToINR[code];
+
+  element.textContent = Number.isFinite(value)
+    ? moneyFormat(value, "INR")
     : "Unavailable";
 }
 
 function updateRateCards() {
-  ["USD", "EUR", "GBP", "AED", "CAD", "AUD"]
-    .forEach(code => setRateText(`rate${code}`, code));
+  for (const code of ["USD", "EUR", "GBP", "AED", "CAD", "AUD"]) {
+    setRateText(`rate${code}`, code);
+  }
 
-  $("heroRate").textContent = ratesToINR.USD > 0
-    ? moneyFormat(ratesToINR.USD, "INR")
-    : "Unavailable";
+  const heroRate = $("heroRate");
+  if (heroRate) {
+    heroRate.textContent = Number.isFinite(ratesToINR.USD)
+      ? moneyFormat(ratesToINR.USD, "INR")
+      : "Unavailable";
+  }
 
-  $("heroDate").textContent = lastRateDate || "—";
+  if ($("heroDate")) {
+    $("heroDate").textContent = lastRateDate || "—";
+  }
 
-  $("ratesFootnote").textContent = lastRateDate
-    ? `Source: Frankfurter reference data · Rate date: ${lastRateDate}. Values are indicative and may be delayed.`
-    : "Reference rate date is unavailable.";
+  if ($("ratesFootnote")) {
+    $("ratesFootnote").textContent = lastRateDate
+      ? `Source: Frankfurter API · Reference rate date: ${lastRateDate}. Rates may be delayed and are not guaranteed transaction prices.`
+      : "Reference exchange rate date is unavailable.";
+  }
 }
 
+// Load exchange rates for INR and calculate INR value per currency.
 async function loadRates() {
-  const refresh = $("refreshRates");
+  const status = $("rateStatus");
+  const refreshButton = $("refreshRates");
 
-  $("rateStatus").textContent = "Fetching reference rates…";
-  refresh.disabled = true;
+  if (status) status.textContent = "Loading currencies and reference rates…";
+  if (refreshButton) refreshButton.disabled = true;
 
   try {
-    if (!currencies.length) {
+    if (currencies.length === 0) {
       await loadCurrencies();
     }
 
-    // Fetch one INR-based reference-rate table instead of making
-    // a separate request for every currency.
-    const data = await fetchJSON(
-      `${API_BASE}/latest?base=INR`
-    );
+    const data = await fetchJSON(`${API_BASE}/rates?base=INR`);
 
-    const nextRates = { INR: 1 };
+    if (!Array.isArray(data)) {
+      throw new Error("Unexpected rates response");
+    }
 
-    for (const [code, value] of Object.entries(data.rates || {})) {
-      const numericValue = Number(value);
+    const newRates = { INR: 1 };
+    const dates = [];
 
-      if (numericValue > 0 && Number.isFinite(numericValue)) {
-        // API value is units of target currency per 1 INR.
-        // Store INR per 1 target currency for converter calculations.
-        nextRates[code] = 1 / numericValue;
+    for (const item of data) {
+      const quote = String(item.quote || "").toUpperCase();
+      const rate = Number(item.rate);
+
+      // With INR as the base, the quote rate means foreign currency
+      // units per 1 INR. Invert it to obtain INR per 1 foreign unit.
+      if (quote && rate > 0 && Number.isFinite(rate)) {
+        newRates[quote] = 1 / rate;
+        if (item.date) dates.push(item.date);
       }
     }
 
-    ratesToINR = nextRates;
-    lastRateDate = data.date || null;
+    ratesToINR = newRates;
+    lastRateDate = dates.sort().pop() || null;
 
     updateRateCards();
     updateConverter();
 
-    $("rateStatus").textContent =
-      `Reference rates loaded · ${Object.keys(ratesToINR).length} currencies available`;
+    const available = Object.keys(ratesToINR).length;
 
-    $("updatedAt").textContent =
-      `Reference date: ${lastRateDate || "not supplied"} · Checked ${new Date().toLocaleString()}`;
+    if (status) {
+      status.textContent =
+        `Reference rates loaded · ${available} currencies with rates`;
+    }
 
+    if ($("updatedAt")) {
+      $("updatedAt").textContent =
+        `Reference data date: ${lastRateDate || "not supplied"} · Checked ${new Date().toLocaleString()}`;
+    }
   } catch (error) {
-    console.error("Could not load reference rates:", error);
+    console.error("Exchange rates could not load:", error);
 
-    $("rateStatus").textContent = "Rates unavailable — try again";
-    $("updatedAt").textContent =
-      "Could not load rates. Check your connection and refresh.";
-    $("ratesFootnote").textContent =
-      "The reference-rate service could not be reached. Try again later.";
+    if (status) {
+      status.textContent = "Rates unavailable — check your internet and retry.";
+    }
+
+    if ($("updatedAt")) {
+      $("updatedAt").textContent =
+        "Could not load exchange rates. Please try refreshing.";
+    }
+
+    if ($("ratesFootnote")) {
+      $("ratesFootnote").textContent =
+        "The exchange-rate service could not be reached. Try again later.";
+    }
 
     updateConverter();
-
   } finally {
-    refresh.disabled = false;
+    if (refreshButton) refreshButton.disabled = false;
   }
 }
 
-$("amount").addEventListener("input", updateConverter);
-$("fromCurrency").addEventListener("change", updateConverter);
-$("toCurrency").addEventListener("change", updateConverter);
-$("refreshRates").addEventListener("click", loadRates);
+// Converter controls
+$("amount")?.addEventListener("input", updateConverter);
+$("fromCurrency")?.addEventListener("change", updateConverter);
+$("toCurrency")?.addEventListener("change", updateConverter);
 
-$("swapCurrencies").addEventListener("click", () => {
+$("refreshRates")?.addEventListener("click", loadRates);
+
+$("swapCurrencies")?.addEventListener("click", () => {
   const from = $("fromCurrency");
   const to = $("toCurrency");
-  const previous = from.value;
 
+  if (!from || !to) return;
+
+  const oldFrom = from.value;
   from.value = to.value;
-  to.value = previous;
+  to.value = oldFrom;
 
   updateConverter();
 });
 
-$("menuToggle").addEventListener("click", () => {
+// Mobile navigation
+$("menuToggle")?.addEventListener("click", () => {
   const nav = $("mainNav");
-  const isOpen = nav.classList.toggle("open");
+  const button = $("menuToggle");
 
-  $("menuToggle").setAttribute("aria-expanded", String(isOpen));
+  if (!nav || !button) return;
+
+  const isOpen = nav.classList.toggle("open");
+  button.setAttribute("aria-expanded", String(isOpen));
 });
 
 document.querySelectorAll("#mainNav a").forEach(link => {
   link.addEventListener("click", () => {
-    $("mainNav").classList.remove("open");
-    $("menuToggle").setAttribute("aria-expanded", "false");
+    $("mainNav")?.classList.remove("open");
+    $("menuToggle")?.setAttribute("aria-expanded", "false");
   });
 });
 
-$("requestForm").addEventListener("submit", event => {
+// Enquiry form
+$("requestForm")?.addEventListener("submit", event => {
   event.preventDefault();
 
-  const name = $("requestName").value.trim();
-  const email = $("requestEmail").value.trim();
-  const type = $("requestType").value;
-  const message = $("requestMessage").value.trim();
+  const name = $("requestName")?.value.trim() || "";
+  const email = $("requestEmail")?.value.trim() || "";
+  const type = $("requestType")?.value || "General enquiry";
+  const message = $("requestMessage")?.value.trim() || "";
 
-  // Replace this placeholder with your real support email.
+  const status = $("requestStatus");
+
+  // Replace this placeholder with your actual support email.
   const supportEmail = "REPLACE_WITH_YOUR_SUPPORT_EMAIL";
 
+  if (!name || !email || !message) {
+    if (status) {
+      status.textContent = "Please complete all required fields.";
+    }
+    return;
+  }
+
   if (supportEmail.includes("REPLACE_WITH")) {
-    $("requestStatus").textContent =
-      "Please configure your official support email in script.js before using this form.";
+    if (status) {
+      status.textContent =
+        "The enquiry form is in demo mode. Configure your official support email in script.js first.";
+    }
     return;
   }
 
@@ -329,9 +413,13 @@ $("requestForm").addEventListener("submit", event => {
     `mailto:${supportEmail}?subject=${subject}&body=${body}`;
 });
 
-$("year").textContent = new Date().getFullYear();
+// Footer year
+if ($("year")) {
+  $("year").textContent = new Date().getFullYear();
+}
 
-(async function initialize() {
+// Start the application
+(async function init() {
   await loadCurrencies();
   await loadRates();
 })();
