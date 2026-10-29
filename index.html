@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Exvora — currency conversion and exchange-rate information.">
+  <meta name="theme-color" content="#081426">
+  <title>Exvora — Borderless Money. Boundless Possibilities.</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="topline"><span class="status-dot"></span> Currency tools for a connected world <span class="top-right">Rates are indicative · Not a transaction quote</span></div>
+  <header class="header">
+    <a class="brand" href="./index.html" aria-label="Exvora home"><span class="brand-mark">E</span><span>exvora<span class="brand-dot">.</span><small>GLOBAL CURRENCY TOOLS</small></span></a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+    <nav class="nav" id="mainNav">
+      <a href="#converter">Converter</a><a href="#rates">Exchange rates</a><a href="#services">Services</a><a href="#about">About</a>
+      <button class="btn btn-outline" id="loginOpen">Sign in</button>
+      <a class="btn btn-primary" href="#contact">Get in touch <span>↗</span></a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="spark">✦</span> YOUR WORLD, WITHOUT BORDERS</div>
+        <h1>Money moves.<br><span>Possibilities open.</span></h1>
+        <p class="hero-lead">A clearer way to explore currencies. Check indicative exchange rates, convert amounts, and discover the next step for your international money needs.</p>
+        <div class="hero-actions"><a class="btn btn-primary btn-large" href="#converter">Convert currency <span>→</span></a><a class="text-link" href="#rates">Explore exchange rates <span>↗</span></a></div>
+        <div class="trust-row"><div class="trust-icon">✓</div><div><strong>Clarity first</strong><small>Transparent indicative rates</small></div><div class="trust-icon shield">◇</div><div><strong>Built with care</strong><small>Privacy-conscious experience</small></div></div>
+      </div>
+      <div class="hero-visual">
+        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+        <div class="globe"><div class="globe-lines"></div><span>EXVORA</span><small>GLOBAL • CONNECTED</small></div>
+        <div class="float-card card-rate"><div class="mini-label">USD / INR <span class="live-pill">INDICATIVE</span></div><strong id="heroRate">—</strong><small>Indian rupees per US dollar</small></div>
+        <div class="float-card card-world"><span class="world-icon">◎</span><div><strong>Across currencies</strong><small>One simple view</small></div></div>
+        <div class="visual-caption">BORDERLESS BY DESIGN <span>✦</span></div>
+      </div>
+    </section>
+
+    <section class="ticker" aria-label="Popular currency pairs"><span>POPULAR PAIRS</span><div>USD / INR <b id="tickerUsd">Loading…</b></div><div>EUR / INR <b id="tickerEur">—</b></div><div>GBP / INR <b id="tickerGbp">—</b></div><div>USD / EUR <b id="tickerUsdEur">—</b></div></section>
+
+    <section class="section converter-section" id="converter">
+      <div class="section-heading"><div><div class="eyebrow">CURRENCY CONVERTER</div><h2>Know the value.<br><span>Plan your next move.</span></h2></div><p>Convert an amount in seconds using the latest available reference rates. Your bank or provider may use a different rate and fees.</p></div>
+      <div class="converter-card">
+        <div class="converter-top"><div><span class="small-label">QUICK CONVERSION</span><h3>Currency calculator</h3></div><div class="rate-status"><span class="status-dot"></span><span id="rateStatus">Loading rates…</span></div></div>
+        <div class="conversion-grid">
+          <label class="currency-field"><span>You send</span><div class="input-row"><input id="amount" type="number" min="0" step="any" value="300" inputmode="decimal"><select id="fromCurrency" aria-label="Currency to convert from"><option value="USD">🇺🇸 USD</option><option value="INR">🇮🇳 INR</option><option value="EUR">🇪🇺 EUR</option><option value="GBP">🇬🇧 GBP</option><option value="AED">🇦🇪 AED</option><option value="CAD">🇨🇦 CAD</option><option value="AUD">🇦🇺 AUD</option><option value="SGD">🇸🇬 SGD</option><option value="JPY">🇯🇵 JPY</option><option value="CHF">🇨🇭 CHF</option></select></div></label>
+          <button class="swap-btn" id="swapCurrencies" aria-label="Swap currencies">⇄</button>
+          <label class="currency-field"><span>Recipient gets (estimate)</span><div class="input-row"><input id="result" type="text" readonly value="—" aria-label="Converted amount"><select id="toCurrency" aria-label="Currency to convert to"><option value="INR">🇮🇳 INR</option><option value="USD">🇺🇸 USD</option><option value="EUR">🇪🇺 EUR</option><option value="GBP">🇬🇧 GBP</option><option value="AED">🇦🇪 AED</option><option value="CAD">🇨🇦 CAD</option><option value="AUD">🇦🇺 AUD</option><option value="SGD">🇸🇬 SGD</option><option value="JPY">🇯🇵 JPY</option><option value="CHF">🇨🇭 CHF</option></select></div></label>
+        </div>
+        <div class="conversion-foot"><span id="conversionNote">Reference conversion only. No money is transferred.</span><button class="btn btn-primary" id="refreshRates">Refresh rates ↻</button></div>
+      </div>
+      <p class="disclaimer">Rates are indicative and provided for general information. This calculator does not accept funds or execute foreign-exchange transactions. Confirm the final rate and any charges with your authorised bank or provider.</p>
+    </section>
+
+    <section class="section rates-section" id="rates">
+      <div class="section-heading"><div><div class="eyebrow">MARKET SNAPSHOT</div><h2>Popular <span>exchange rates.</span></h2></div><p>A quick reference for commonly checked currencies, relative to INR.</p></div>
+      <div class="rates-grid">
+        <article class="rate-card featured"><div class="currency-title"><span class="currency-flag">🇺🇸</span><div><strong>US Dollar</strong><small>USD / INR</small></div><span class="arrow-up">↗</span></div><div class="rate-value" id="rateUSD">—</div><div class="rate-caption">1 USD in Indian rupees</div></article>
+        <article class="rate-card"><div class="currency-title"><span class="currency-flag">🇪🇺</span><div><strong>Euro</strong><small>EUR / INR</small></div></div><div class="rate-value" id="rateEUR">—</div><div class="rate-caption">1 EUR in Indian rupees</div></article>
+        <article class="rate-card"><div class="currency-title"><span class="currency-flag">🇬🇧</span><div><strong>British Pound</strong><small>GBP / INR</small></div></div><div class="rate-value" id="rateGBP">—</div><div class="rate-caption">1 GBP in Indian rupees</div></article>
+        <article class="rate-card"><div class="currency-title"><span class="currency-flag">🇦🇪</span><div><strong>UAE Dirham</strong><small>AED / INR</small></div></div><div class="rate-value" id="rateAED">—</div><div class="rate-caption">1 AED in Indian rupees</div></article>
+        <article class="rate-card"><div class="currency-title"><span class="currency-flag">🇨🇦</span><div><strong>Canadian Dollar</strong><small>CAD / INR</small></div></div><div class="rate-value" id="rateCAD">—</div><div class="rate-caption">1 CAD in Indian rupees</div></article>
+        <article class="rate-card"><div class="currency-title"><span class="currency-flag">🇦🇺</span><div><strong>Australian Dollar</strong><small>AUD / INR</small></div></div><div class="rate-value" id="rateAUD">—</div><div class="rate-caption">1 AUD in Indian rupees</div></article>
+      </div>
+      <div class="updated-line"><span class="status-dot"></span><span id="updatedAt">Rates have not loaded yet.</span><span class="source-label">Source: Frankfurter reference-rate API</span></div>
+    </section>
+
+    <section class="section services-section" id="services">
+      <div class="section-heading centered"><div><div class="eyebrow">THE EXVORA APPROACH</div><h2>Designed for <span>financial clarity.</span></h2></div><p>Useful tools today, with a foundation that can grow responsibly.</p></div>
+      <div class="service-grid">
+        <article class="service-card"><div class="service-icon">⇄</div><h3>Simple conversion</h3><p>Understand approximate currency values before speaking with your provider.</p><span class="service-number">01 / CONVERT</span></article>
+        <article class="service-card"><div class="service-icon">◷</div><h3>Rate awareness</h3><p>Explore reference rates and see when the displayed data was last updated.</p><span class="service-number">02 / COMPARE</span></article>
+        <article class="service-card"><div class="service-icon">↗</div><h3>Partner-ready</h3><p>A future-ready information layer for integration with appropriately authorised service providers.</p><span class="service-number">03 / CONNECT</span></article>
+      </div>
+    </section>
+
+    <section class="cta-section" id="about"><div class="cta-orb"></div><div><div class="eyebrow">A WORLD THAT CONNECTS</div><h2>Make your next<br>currency decision clearer.</h2><p>Exvora is building a simpler way to explore the world of currencies.</p></div><a href="#contact" class="btn btn-light">Contact Exvora <span>↗</span></a></section>
+
+    <section class="section contact-section" id="contact">
+      <div class="section-heading"><div><div class="eyebrow">CONTACT</div><h2>Let's <span>connect.</span></h2></div><p>Questions, feedback, or potential authorised-partner enquiries are welcome.</p></div>
+      <form class="contact-form" id="contactForm"><label>Your name<input id="contactName" required maxlength="100" placeholder="Enter your name"></label><label>Email address<input id="contactEmail" type="email" required maxlength="160" placeholder="you@example.com"></label><label>What would you like to discuss?<select id="contactTopic"><option>General enquiry</option><option>Authorised partner enquiry</option><option>Website feedback</option><option>Technical support</option></select></label><label>Message<textarea id="contactMessage" required maxlength="2000" rows="4" placeholder="Write your message"></textarea></label><button class="btn btn-primary" type="submit">Prepare enquiry ↗</button><p class="form-note" id="contactStatus">This demo opens your email app; it does not send data to a server.</p></form>
+    </section>
+  </main>
+
+  <footer class="footer"><a class="brand footer-brand" href="#"><span class="brand-mark">E</span><span>exvora<span class="brand-dot">.</span><small>GLOBAL CURRENCY TOOLS</small></span></a><div class="footer-links"><a href="#converter">Converter</a><a href="#rates">Rates</a><a href="#about">About</a><a href="#contact">Contact</a></div><p>© <span id="year"></span> Exvora. All rights reserved.</p><p class="footer-disclaimer">Exvora is an informational demo and is not a bank, authorised dealer, remittance provider, or financial adviser. No transactions are offered through this website. All exchange rates are indicative and may be delayed.</p></footer>
+
+  <dialog id="loginDialog" class="login-dialog"><button class="dialog-close" id="loginClose" aria-label="Close">×</button><div class="brand dialog-brand"><span class="brand-mark">E</span><span>exvora<span class="brand-dot">.</span><small>WELCOME BACK</small></span></div><h2>Account access</h2><p>Customer accounts are not enabled in this static demo yet.</p><p class="dialog-note">A secure backend, authentication service, privacy notice, and account-security controls are required before real registration or sign-in can be offered.</p><button class="btn btn-primary full-width" id="loginOkay">Got it</button></dialog>
+  <script src="./script.js"></script>
+</body>
+</html>
