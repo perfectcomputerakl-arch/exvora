@@ -1,28 +1,28 @@
-# Exvora — Professional Currency Tools
+# Exvora — Global Currency Tools
 
-A responsive static website starter for Exvora, with a currency converter, indicative reference rates, popular rate cards, contact form demo, and sign-in placeholder.
+Responsive static website for indicative currency conversion, exchange-rate snapshots, currency facts, and email-based enquiries.
 
-## Deploy on GitHub Pages
+## Files
+- `index.html` — page structure and content
+- `styles.css` — responsive styling
+- `script.js` — converter, reference-rate loading, menu and enquiry form
+- `assets/favicon.svg` — browser icon
 
-1. Create a new public repository named `exvora` (or another name you choose).
-2. Upload `index.html`, `styles.css`, `script.js`, `README.md`, and the `assets/` folder to the repository root.
-3. In **Settings → Pages**, choose **Deploy from a branch**, select `main` and `/ (root)`, then save.
-4. Wait for GitHub Pages to publish the site.
+## Publish on GitHub Pages
+1. Extract this ZIP on your phone/computer.
+2. Open your `exvora` repository on GitHub.
+3. Choose **Add file → Upload files**.
+4. Upload the contents of this folder (not the ZIP itself), including `index.html`, `styles.css`, `script.js`, and the `assets` folder.
+5. Commit changes to the `main` branch. Keep files in the repository root.
+6. In **Settings → Pages**, select **Deploy from a branch**, branch `main`, folder `/(root)`. Save if needed.
+7. Wait a few minutes and refresh your published site.
 
-## Before launch
+## Before using the enquiry form
+In `script.js`, replace `REPLACE_WITH_YOUR_SUPPORT_EMAIL` with an email address you control. The form uses the visitor's email app (`mailto:`); it does not send data to a server.
 
-- Confirm the Exvora name and domain/trademark availability; this starter does not establish that the name is legally available.
-- Replace `REPLACE_WITH_YOUR_SUPPORT_EMAIL` in `script.js` with a verified support address.
-- Test the reference-rate API in your target browsers and decide on a reliable rate provider and applicable usage terms.
-- Add a privacy notice, terms, accessibility checks, error monitoring, and a secure backend before collecting real customer information.
-- The login dialog is a placeholder only. It does not authenticate users or store accounts.
-- The contact form uses a `mailto:` link and does not submit information to a server.
-- No money transfer, currency purchase/sale, payment collection, or forex transaction is implemented.
-
-## Rates
-
-The converter requests reference rates from the public Frankfurter API. The API may not update on weekends/holidays, and these are indicative reference values, not guaranteed tradeable rates. If the API is unavailable, the page displays an error rather than inventing a rate.
-
-## Important regulatory note
-
-This is an informational demo, not a bank, authorised dealer, money changer, remittance provider, or financial adviser. Do not offer or execute foreign-exchange transactions until you have confirmed the applicable RBI/FEMA requirements and established an appropriate authorised-partner or licensing arrangement. A static GitHub Pages site is not suitable for storing passwords, identity documents, payment details, or other sensitive customer information.
+## Important limitations
+- This is a static informational website, not a bank, money changer, remittance provider or payment service.
+- It does not collect funds, trade currencies, or execute transfers.
+- Reference rates can be delayed, unavailable or different from rates offered by financial providers.
+- Any real money-changing/remittance service must be set up through an appropriately authorised arrangement and comply with applicable RBI/FEMA/KYC/AML and other requirements.
+- Do not add API secrets, passwords, private customer information or financial credentials to this public repository.
